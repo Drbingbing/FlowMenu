@@ -1,0 +1,6 @@
+framework module Pods_FlowMenuTests {
+  umbrella header "Pods-FlowMenuTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
