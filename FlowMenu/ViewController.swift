@@ -112,10 +112,6 @@ class ViewController: UIViewController {
                 view.styleColor(.white)
                 view.populate(for: data)
                 view.defaultShadow()
-                view.onLongPress = { [weak self] in
-                    let colorView = ColorViewController()
-                    self?.showMenu(sourceView: view, viewController: colorView)
-                }
             },
             sizeSource: { at, data, size -> CGSize in
                 let width = (size.width - 12) / 2
@@ -218,8 +214,6 @@ class PaperView: DynamicView {
     
     let collectionView = CollectionView()
     let signLabel = UILabel()
-    
-    var onLongPress: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
