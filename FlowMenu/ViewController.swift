@@ -23,7 +23,7 @@ extension UIView {
     
     func defaultShadow(radius: CGFloat = 2, opacity: Float = 0.15, size: CGFloat = 2) {
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.shadowOffset = CGSize(width: size, height: size)
         layer.shadowOpacity = opacity
         layer.shadowRadius = radius
     }
@@ -85,6 +85,7 @@ class ViewController: UIViewController {
         view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
         collectionView.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.9411764706, blue: 0.9490196078, alpha: 1)
+        collectionView.showsVerticalScrollIndicator = false
         
         let headerInset = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let titleProvider = LabelProvider(
@@ -112,6 +113,10 @@ class ViewController: UIViewController {
                 view.styleColor(.white)
                 view.populate(for: data)
                 view.defaultShadow()
+                view.onLongPress = { [weak self] in
+                    let colorView = ColorViewController()
+                    self?.showMenu(sourceView: view, viewController: colorView)
+                }
             },
             sizeSource: { at, data, size -> CGSize in
                 let width = (size.width - 12) / 2
@@ -119,11 +124,8 @@ class ViewController: UIViewController {
                 return CGSize(width: width, height: hieght)
             },
             layout: FlowLayout(spacing: 12).inset(by: bodyInset)
-        ) { [weak self] context in
-            let colorView = ColorViewController()
-            self?.showMenu(sourceView: context.view, viewController: colorView)
-        }
-        
+        )
+
         collectionView.provider = ComposedProvider(sections: [titleProvider, bodyProvider, colorProvider])
     }
     
@@ -210,10 +212,13 @@ class ColorViewController: UIViewController {
     
 }
 
-class PaperView: DynamicView {
+class PaperView: UIView {
     
     let collectionView = CollectionView()
     let signLabel = UILabel()
+    private(set) var isHighighted: Bool = false
+    private var onLongPressed = false
+    var onLongPress: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -232,6 +237,11 @@ class PaperView: DynamicView {
         let size = signLabel.frame.size
         signLabel.frame.origin = CGPoint(x: bounds.maxX - size.width - 8, y: bounds.maxY - size.height - 8)
         collectionView.frame = bounds
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+        layer.zPosition = isHighighted ? 1 : 0
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = isHighighted ? 0.5 : 0.15
+        layer.shadowRadius = isHighighted ? 4 : 2
     }
     
     func populate(for mockData: MockData) {
@@ -259,24 +269,59 @@ class PaperView: DynamicView {
         signLabel.frame.size = labelSize.size
     }
     
-    @objc func didLongPress(_ sender: UILongPressGestureRecognizer) {
-        let scaleDown = {
-            self.layer.zPosition = 0
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        isHighighted = true
+        onLongPressed = false
+        UIView.animate(withDuration: 0.2) {
             self.transform = .identity.scaledBy(x: 0.96, y: 0.96)
         }
-        let scaleUp = {
-            self.layer.zPosition = 1
-            self.transform = .identity.scaledBy(x: 1.1, y: 1.1)
-            self.defaultShadow(radius: 4, opacity: 0.3, size: 4)
-        }
-        let reset = {
-            self.layer.zPosition = 0
-            self.defaultShadow()
-            self.transform = .identity
-        }
         
+        perform(#selector(delayedTouch), with: touches, afterDelay: 0.3)
     }
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        isHighighted = false
+        let animation = {
+            self.setNeedsLayout()
+            self.transform = .identity
+        }
+        UIView.animate(withDuration: 0.2, animations: animation) { _ in
+            if self.onLongPressed {
+                self.onLongPress?()
+            }
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        
+        isHighighted = false
+        let animation = {
+            self.setNeedsLayout()
+            self.transform = .identity
+        }
+        UIView.animate(withDuration: 0.2, animations: animation) { _ in
+            if self.onLongPressed {
+                self.onLongPress?()
+            }
+        }
+    }
+    
+    @objc func delayedTouch() {
+        if isHighighted {
+            self.transform = .identity
+            let animations = {
+                self.setNeedsLayout()
+                self.transform = .identity.scaledBy(x: 1.1, y: 1.1)
+                self.onLongPressed = true
+            }
+            UIView.animate(withDuration: 0.2, animations: animations)
+        }
+    }
 }
 
 class Button: DynamicView {
