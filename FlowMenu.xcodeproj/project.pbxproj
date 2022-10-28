@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		049E215E62FB8CF3505F1FC5 /* Pods_FlowMenu_FlowMenuUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43EE34588AA9ECFD4989451 /* Pods_FlowMenu_FlowMenuUITests.framework */; };
 		2362D35833DE6639254115D9 /* Pods_FlowMenuTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 383539476D38670BB3D694EA /* Pods_FlowMenuTests.framework */; };
+		44495F8829066C8A00535B26 /* FlowMenuPresentTransion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44495F8729066C8A00535B26 /* FlowMenuPresentTransion.swift */; };
+		44495F8B290695F400535B26 /* FlowMenuDismissTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44495F8A290695F400535B26 /* FlowMenuDismissTransitions.swift */; };
+		44730A4329091FAB008C8852 /* MenuPresentingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44730A4229091FAB008C8852 /* MenuPresentingViewController.swift */; };
+		44730A4629092179008C8852 /* FlowMenuTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44730A4529092179008C8852 /* FlowMenuTransitionDelegate.swift */; };
+		44B944FC2907B2E100A30F8E /* FlowMenuContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B944FB2907B2E100A30F8E /* FlowMenuContainerView.swift */; };
+		44B945022907E00500A30F8E /* BubbleDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B945012907E00500A30F8E /* BubbleDirection.swift */; };
 		44CB4E6D2906329200559EA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E6C2906329200559EA3 /* AppDelegate.swift */; };
 		44CB4E6F2906329200559EA3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E6E2906329200559EA3 /* SceneDelegate.swift */; };
 		44CB4E712906329200559EA3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E702906329200559EA3 /* ViewController.swift */; };
@@ -18,7 +24,7 @@
 		44CB4E842906329300559EA3 /* FlowMenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E832906329300559EA3 /* FlowMenuTests.swift */; };
 		44CB4E8E2906329300559EA3 /* FlowMenuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E8D2906329300559EA3 /* FlowMenuUITests.swift */; };
 		44CB4E902906329300559EA3 /* FlowMenuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E8F2906329300559EA3 /* FlowMenuUITestsLaunchTests.swift */; };
-		44CB4E9E290632AB00559EA3 /* FlowMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E9D290632AB00559EA3 /* FlowMenu.swift */; };
+		44ED867E2908D3BF006DD86B /* DimmedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ED867D2908D3BF006DD86B /* DimmedView.swift */; };
 		750260FDED58B60FBF0C3AE7 /* Pods_FlowMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA4FAF43C0869959E5D9BF5 /* Pods_FlowMenu.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +50,13 @@
 		33D1B19EBFA74C0462B1F12F /* Pods-FlowMenu-FlowMenuUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlowMenu-FlowMenuUITests.release.xcconfig"; path = "Target Support Files/Pods-FlowMenu-FlowMenuUITests/Pods-FlowMenu-FlowMenuUITests.release.xcconfig"; sourceTree = "<group>"; };
 		383539476D38670BB3D694EA /* Pods_FlowMenuTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlowMenuTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EA4FAF43C0869959E5D9BF5 /* Pods_FlowMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlowMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		44495F8729066C8A00535B26 /* FlowMenuPresentTransion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuPresentTransion.swift; sourceTree = "<group>"; };
+		44495F8A290695F400535B26 /* FlowMenuDismissTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuDismissTransitions.swift; sourceTree = "<group>"; };
+		44730A4229091FAB008C8852 /* MenuPresentingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPresentingViewController.swift; sourceTree = "<group>"; };
+		44730A4529092179008C8852 /* FlowMenuTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuTransitionDelegate.swift; sourceTree = "<group>"; };
 		44A583AEE5F1E456A0187A8E /* Pods-FlowMenu-FlowMenuUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlowMenu-FlowMenuUITests.debug.xcconfig"; path = "Target Support Files/Pods-FlowMenu-FlowMenuUITests/Pods-FlowMenu-FlowMenuUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		44B944FB2907B2E100A30F8E /* FlowMenuContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuContainerView.swift; sourceTree = "<group>"; };
+		44B945012907E00500A30F8E /* BubbleDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleDirection.swift; sourceTree = "<group>"; };
 		44CB4E692906329200559EA3 /* FlowMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlowMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44CB4E6C2906329200559EA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44CB4E6E2906329200559EA3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,7 +70,7 @@
 		44CB4E892906329300559EA3 /* FlowMenuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlowMenuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44CB4E8D2906329300559EA3 /* FlowMenuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuUITests.swift; sourceTree = "<group>"; };
 		44CB4E8F2906329300559EA3 /* FlowMenuUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		44CB4E9D290632AB00559EA3 /* FlowMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenu.swift; sourceTree = "<group>"; };
+		44ED867D2908D3BF006DD86B /* DimmedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmedView.swift; sourceTree = "<group>"; };
 		5C464B213E3DBA951E7CEC5A /* Pods-FlowMenuTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlowMenuTests.debug.xcconfig"; path = "Target Support Files/Pods-FlowMenuTests/Pods-FlowMenuTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D0B70EBE924D9794AE8D397D /* Pods-FlowMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlowMenu.debug.xcconfig"; path = "Target Support Files/Pods-FlowMenu/Pods-FlowMenu.debug.xcconfig"; sourceTree = "<group>"; };
 		F43EE34588AA9ECFD4989451 /* Pods_FlowMenu_FlowMenuUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlowMenu_FlowMenuUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +105,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		44495F8629066C7700535B26 /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				44495F8729066C8A00535B26 /* FlowMenuPresentTransion.swift */,
+				44495F8A290695F400535B26 /* FlowMenuDismissTransitions.swift */,
+			);
+			path = Transitions;
+			sourceTree = "<group>";
+		};
+		44495F8C2907B2B300535B26 /* ContainerView */ = {
+			isa = PBXGroup;
+			children = (
+				44B944FB2907B2E100A30F8E /* FlowMenuContainerView.swift */,
+			);
+			path = ContainerView;
+			sourceTree = "<group>";
+		};
+		44730A4429092169008C8852 /* TransitionDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				44730A4529092179008C8852 /* FlowMenuTransitionDelegate.swift */,
+			);
+			path = TransitionDelegate;
+			sourceTree = "<group>";
+		};
+		44B945002907DFF300A30F8E /* BubbleDirection */ = {
+			isa = PBXGroup;
+			children = (
+				44B945012907E00500A30F8E /* BubbleDirection.swift */,
+			);
+			path = BubbleDirection;
+			sourceTree = "<group>";
+		};
+		44B9453F2908D39A00A30F8E /* DimmedView */ = {
+			isa = PBXGroup;
+			children = (
+				44ED867D2908D3BF006DD86B /* DimmedView.swift */,
+			);
+			path = DimmedView;
+			sourceTree = "<group>";
+		};
 		44CB4E602906329200559EA3 = {
 			isa = PBXGroup;
 			children = (
@@ -150,7 +203,12 @@
 		44CB4E9C2906329E00559EA3 /* FlowMenu */ = {
 			isa = PBXGroup;
 			children = (
-				44CB4E9D290632AB00559EA3 /* FlowMenu.swift */,
+				44730A4429092169008C8852 /* TransitionDelegate */,
+				44B9453F2908D39A00A30F8E /* DimmedView */,
+				44B945002907DFF300A30F8E /* BubbleDirection */,
+				44495F8C2907B2B300535B26 /* ContainerView */,
+				44495F8629066C7700535B26 /* Transitions */,
+				44730A4229091FAB008C8852 /* MenuPresentingViewController.swift */,
 			);
 			path = FlowMenu;
 			sourceTree = "<group>";
@@ -165,7 +223,6 @@
 				5C464B213E3DBA951E7CEC5A /* Pods-FlowMenuTests.debug.xcconfig */,
 				08DC29F0AD44C1916E6CD074 /* Pods-FlowMenuTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -420,8 +477,14 @@
 			files = (
 				44CB4E712906329200559EA3 /* ViewController.swift in Sources */,
 				44CB4E6D2906329200559EA3 /* AppDelegate.swift in Sources */,
-				44CB4E9E290632AB00559EA3 /* FlowMenu.swift in Sources */,
+				44B944FC2907B2E100A30F8E /* FlowMenuContainerView.swift in Sources */,
+				44495F8829066C8A00535B26 /* FlowMenuPresentTransion.swift in Sources */,
+				44495F8B290695F400535B26 /* FlowMenuDismissTransitions.swift in Sources */,
+				44730A4629092179008C8852 /* FlowMenuTransitionDelegate.swift in Sources */,
+				44730A4329091FAB008C8852 /* MenuPresentingViewController.swift in Sources */,
+				44ED867E2908D3BF006DD86B /* DimmedView.swift in Sources */,
 				44CB4E6F2906329200559EA3 /* SceneDelegate.swift in Sources */,
+				44B945022907E00500A30F8E /* BubbleDirection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
