@@ -44,13 +44,14 @@ class LabelProvider: SimpleViewProvider {
     init(text: String,
          color: UIColor = .label,
          font: UIFont = .rounded(ofSize: 16),
+         numverOfLines: Int = 0,
          inset: UIEdgeInsets = .zero,
          tapHandler: TapHandler? = nil) {
         let label = UILabel()
         label.text = text
         label.textColor = color
         label.font = font
-        label.numberOfLines = 0
+        label.numberOfLines = numverOfLines
         super.init(views: [label],
                    sizeSource: SimpleViewSizeSource(sizeStrategy: (.fill, .fit)),
                    layout: inset == .zero ? FlowLayout() : FlowLayout().inset(by: inset),
@@ -84,7 +85,6 @@ class ViewController: UIViewController {
         view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
         collectionView.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.9411764706, blue: 0.9490196078, alpha: 1)
-        collectionView.delaysContentTouches = false
         
         let headerInset = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let titleProvider = LabelProvider(
@@ -104,24 +104,11 @@ class ViewController: UIViewController {
             print("touch")
         }
         
-        let colors = [
-            UIColor.systemRed,
-            UIColor.systemBlue,
-            UIColor.systemCyan,
-            UIColor.systemOrange,
-            UIColor.systemPurple,
-            UIColor.systemGray,
-            UIColor.systemMint,
-            UIColor.systemPink,
-            UIColor.systemTeal,
-            UIColor.systemBrown,
-            UIColor.systemYellow,
-            UIColor.systemGreen
-        ]
+        let mocks = MockData.mocks
         
         let colorProvider = BasicProvider(
-            dataSource: colors,
-            viewSource: { (view: PaperView, data: UIColor, at: Int) in
+            dataSource: mocks,
+            viewSource: { (view: PaperView, data: MockData, at: Int) in
                 view.styleColor(.white)
                 view.populate(for: data)
                 view.defaultShadow()
@@ -136,9 +123,9 @@ class ViewController: UIViewController {
                 return CGSize(width: width, height: hieght)
             },
             layout: FlowLayout(spacing: 12).inset(by: bodyInset)
-        ) {  context in
-            
-            
+        ) { [weak self] context in
+            let colorView = ColorViewController()
+            self?.showMenu(sourceView: context.view, viewController: colorView)
         }
         
         collectionView.provider = ComposedProvider(sections: [titleProvider, bodyProvider, colorProvider])
@@ -227,22 +214,18 @@ class ColorViewController: UIViewController {
     
 }
 
-class PaperView: UIView {
+class PaperView: DynamicView {
     
     let collectionView = CollectionView()
-    let longPressGesture = UILongPressGestureRecognizer()
-    let tapGesture = UITapGestureRecognizer()
+    let signLabel = UILabel()
+    
     var onLongPress: (() -> Void)?
-    var triggerLongPress: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(collectionView)
+        addSubview(signLabel)
         collectionView.isUserInteractionEnabled = false
-        longPressGesture.addTarget(self, action: #selector(didLongPress))
-        longPressGesture.minimumPressDuration = 0
-        addGestureRecognizer(tapGesture)
-        addGestureRecognizer(longPressGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -252,95 +235,54 @@ class PaperView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        let size = signLabel.frame.size
+        signLabel.frame.origin = CGPoint(x: bounds.maxX - size.width - 8, y: bounds.maxY - size.height - 8)
         collectionView.frame = bounds
     }
     
-    func populate(for theme: UIColor) {
-        let titleProvider = LabelProvider(text: "Welcome to Noto!✍️", color: theme, font: .rounded(ofSize: 16, weight: .bold))
-        let timeProvider = LabelProvider(text: "Yesterday, 6:36 PM", color: .systemGray, font: .rounded(ofSize: 14))
-        let contentProvider = LabelProvider(text: "Thank you for checking out Noto!, We crafted Noto to be clean and morden, yet powerful enough to replace your existing note app. Let us give you a walk through of what it can do.", font: .rounded(ofSize: 8))
-        let contentProvider2 = LabelProvider(text: "Editing Tools 🛠", color: theme, font: .rounded(ofSize: 10, weight: .medium))
-        let contentProvider3 = LabelProvider(text: "Text Format", color: theme, font: .rounded(ofSize: 8, weight: .medium))
+    func populate(for mockData: MockData) {
+        let titleProvider = LabelProvider(text: mockData.title, color: mockData.tintColor, font: .rounded(ofSize: 16, weight: .bold))
+        let contentProvider = LabelProvider(text: mockData.content, font: .rounded(ofSize: 8))
+        let contentProvider2 = LabelProvider(text: mockData.subtitle, color: mockData.tintColor, font: .rounded(ofSize: 10, weight: .medium))
+        let timeProvider = LabelProvider(text: mockData.time, color: .systemGray, font: .rounded(ofSize: 14))
         
         collectionView.provider = ComposedProvider(
             layout: FlowLayout(spacing: 8).inset(by: UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)),
             sections: [
                 titleProvider,
+                contentProvider2,
                 timeProvider,
                 SeperatorProvider(),
                 contentProvider,
-                SeperatorProvider(),
-                contentProvider2,
-                contentProvider3
             ]
         )
+        
+        signLabel.text = mockData.body1
+        signLabel.font = .rounded(ofSize: 8, weight: .medium)
+        signLabel.textColor = .systemGray3
+        let labelSize = (mockData.body1 ?? "").boundingRect(with: bounds.size, options: .usesLineFragmentOrigin,
+                                                            attributes: [NSAttributedString.Key.font: UIFont.rounded(ofSize: 8, weight: .medium)], context: nil)
+        signLabel.frame.size = labelSize.size
     }
     
     @objc func didLongPress(_ sender: UILongPressGestureRecognizer) {
         let scaleDown = {
+            self.layer.zPosition = 0
             self.transform = .identity.scaledBy(x: 0.96, y: 0.96)
         }
         let scaleUp = {
-            print(sender.state.rawValue)
+            self.layer.zPosition = 1
             self.transform = .identity.scaledBy(x: 1.1, y: 1.1)
             self.defaultShadow(radius: 4, opacity: 0.3, size: 4)
-            self.triggerLongPress = true
         }
         let reset = {
+            self.layer.zPosition = 0
             self.defaultShadow()
             self.transform = .identity
         }
         
-        
-        
-        switch sender.state {
-        case .began, .possible, .changed:
-            let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear, animations: scaleDown)
-            animator.startAnimation()
-            animator.addAnimations(scaleUp, delayFactor: 0.3)
-        default:
-            
-            let newAnimator = UIViewPropertyAnimator(duration: 0.2, curve: .linear, animations: reset)
-            newAnimator.startAnimation()
-            
-            if triggerLongPress {
-                onLongPress?()
-            }
-        }
     }
-//
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//
-//        UIView.animate(withDuration: 0.2) {
-//            self.transform = .identity.scaledBy(x: 0.96, y: 0.96)
-//        }
-//        UIView.animate(withDuration: 0.2, delay: 0.3) {
-//            self.layer.zPosition = 10
-//            self.defaultShadow(radius: 4, opacity: 0.3, size: 4)
-//            self.transform = .identity.scaledBy(x: 1.1, y: 1.1)
-//        }
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesEnded(touches, with: event)
-//
-//        UIView.animate(withDuration: 0.2) {
-//            self.layer.zPosition = 0
-//            self.defaultShadow()
-//            self.transform = .identity
-//        }
-//    }
-//
-//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesCancelled(touches, with: event)
-//
-//        UIView.animate(withDuration: 0.2) {
-//            self.layer.zPosition = 0
-//            self.defaultShadow()
-//            self.transform = .identity
-//        }
-//    }
+    
 }
 
 class Button: DynamicView {

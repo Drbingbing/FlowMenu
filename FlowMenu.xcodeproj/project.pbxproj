@@ -13,6 +13,7 @@
 		44495F8B290695F400535B26 /* FlowMenuDismissTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44495F8A290695F400535B26 /* FlowMenuDismissTransitions.swift */; };
 		44730A4329091FAB008C8852 /* MenuPresentingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44730A4229091FAB008C8852 /* MenuPresentingViewController.swift */; };
 		44730A4629092179008C8852 /* FlowMenuTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44730A4529092179008C8852 /* FlowMenuTransitionDelegate.swift */; };
+		44730A4B290BBB6E008C8852 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44730A4A290BBB6E008C8852 /* MockData.swift */; };
 		44B944FC2907B2E100A30F8E /* FlowMenuContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B944FB2907B2E100A30F8E /* FlowMenuContainerView.swift */; };
 		44B945022907E00500A30F8E /* BubbleDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B945012907E00500A30F8E /* BubbleDirection.swift */; };
 		44CB4E6D2906329200559EA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB4E6C2906329200559EA3 /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 		44495F8A290695F400535B26 /* FlowMenuDismissTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuDismissTransitions.swift; sourceTree = "<group>"; };
 		44730A4229091FAB008C8852 /* MenuPresentingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPresentingViewController.swift; sourceTree = "<group>"; };
 		44730A4529092179008C8852 /* FlowMenuTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuTransitionDelegate.swift; sourceTree = "<group>"; };
+		44730A4A290BBB6E008C8852 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		44A583AEE5F1E456A0187A8E /* Pods-FlowMenu-FlowMenuUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlowMenu-FlowMenuUITests.debug.xcconfig"; path = "Target Support Files/Pods-FlowMenu-FlowMenuUITests/Pods-FlowMenu-FlowMenuUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		44B944FB2907B2E100A30F8E /* FlowMenuContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMenuContainerView.swift; sourceTree = "<group>"; };
 		44B945012907E00500A30F8E /* BubbleDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleDirection.swift; sourceTree = "<group>"; };
@@ -130,6 +132,14 @@
 			path = TransitionDelegate;
 			sourceTree = "<group>";
 		};
+		44730A49290BBB64008C8852 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				44730A4A290BBB6E008C8852 /* MockData.swift */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
 		44B945002907DFF300A30F8E /* BubbleDirection */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +181,7 @@
 		44CB4E6B2906329200559EA3 /* FlowMenu */ = {
 			isa = PBXGroup;
 			children = (
+				44730A49290BBB64008C8852 /* MockData */,
 				44CB4E9C2906329E00559EA3 /* FlowMenu */,
 				44CB4E6C2906329200559EA3 /* AppDelegate.swift */,
 				44CB4E6E2906329200559EA3 /* SceneDelegate.swift */,
@@ -484,6 +495,7 @@
 				44730A4329091FAB008C8852 /* MenuPresentingViewController.swift in Sources */,
 				44ED867E2908D3BF006DD86B /* DimmedView.swift in Sources */,
 				44CB4E6F2906329200559EA3 /* SceneDelegate.swift in Sources */,
+				44730A4B290BBB6E008C8852 /* MockData.swift in Sources */,
 				44B945022907E00500A30F8E /* BubbleDirection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
