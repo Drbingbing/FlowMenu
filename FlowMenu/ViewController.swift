@@ -113,7 +113,7 @@ class ViewController: UIViewController {
                 view.styleColor(.white)
                 view.populate(for: data)
                 view.defaultShadow()
-                view.onLongPress = { [weak self] in
+                view.onLongPressGesture = { [weak self] in
                     let colorView = ColorViewController()
                     self?.showMenu(sourceView: view, viewController: colorView)
                 }
@@ -123,7 +123,13 @@ class ViewController: UIViewController {
                 let hieght = width * 1.33
                 return CGSize(width: width, height: hieght)
             },
-            layout: FlowLayout(spacing: 12).inset(by: bodyInset)
+            layout: FlowLayout(spacing: 12).inset(by: bodyInset),
+            tapHandler: { context in
+//                let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+//                view.backgroundColor = context.data.tintColor
+//                let popover = Popover()
+//                popover.show(view, sourceView: context.view)
+            }
         )
 
         collectionView.provider = ComposedProvider(sections: [titleProvider, bodyProvider, colorProvider])
@@ -133,39 +139,6 @@ class ViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         collectionView.frame = view.bounds
-    }
-}
-
-class DynamicView: UIView {
-    
-    var tapAnimation: Bool = true
-    
-    var isHighlighted: Bool = false {
-        didSet {
-            guard isHighlighted != oldValue else { return }
-            if tapAnimation {
-                var transform = CGAffineTransform.identity
-                if isHighlighted { transform = transform.scaledBy(x: 0.96, y: 0.96) }
-                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
-                    self.transform = transform
-                }, completion: nil)
-            }
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        isHighlighted = true
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        isHighlighted = false
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesCancelled(touches, with: event)
-        isHighlighted = false
     }
 }
 
@@ -210,138 +183,4 @@ class ColorViewController: UIViewController {
         collectionView.frame = view.bounds
     }
     
-}
-
-class PaperView: UIView {
-    
-    let collectionView = CollectionView()
-    let signLabel = UILabel()
-    private(set) var isHighighted: Bool = false
-    private var onLongPressed = false
-    var onLongPress: (() -> Void)?
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(collectionView)
-        addSubview(signLabel)
-        collectionView.isUserInteractionEnabled = false
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let size = signLabel.frame.size
-        signLabel.frame.origin = CGPoint(x: bounds.maxX - size.width - 8, y: bounds.maxY - size.height - 8)
-        collectionView.frame = bounds
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
-        layer.zPosition = isHighighted ? 1 : 0
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = isHighighted ? 0.5 : 0.15
-        layer.shadowRadius = isHighighted ? 4 : 2
-    }
-    
-    func populate(for mockData: MockData) {
-        let titleProvider = LabelProvider(text: mockData.title, color: mockData.tintColor, font: .rounded(ofSize: 16, weight: .bold))
-        let contentProvider = LabelProvider(text: mockData.content, font: .rounded(ofSize: 8))
-        let contentProvider2 = LabelProvider(text: mockData.subtitle, color: mockData.tintColor, font: .rounded(ofSize: 10, weight: .medium))
-        let timeProvider = LabelProvider(text: mockData.time, color: .systemGray, font: .rounded(ofSize: 14))
-        
-        collectionView.provider = ComposedProvider(
-            layout: FlowLayout(spacing: 8).inset(by: UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)),
-            sections: [
-                titleProvider,
-                contentProvider2,
-                timeProvider,
-                SeperatorProvider(),
-                contentProvider,
-            ]
-        )
-        
-        signLabel.text = mockData.body1
-        signLabel.font = .rounded(ofSize: 8, weight: .medium)
-        signLabel.textColor = .systemGray3
-        let labelSize = (mockData.body1 ?? "").boundingRect(with: bounds.size, options: .usesLineFragmentOrigin,
-                                                            attributes: [NSAttributedString.Key.font: UIFont.rounded(ofSize: 8, weight: .medium)], context: nil)
-        signLabel.frame.size = labelSize.size
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        
-        isHighighted = true
-        onLongPressed = false
-        UIView.animate(withDuration: 0.2) {
-            self.transform = .identity.scaledBy(x: 0.96, y: 0.96)
-        }
-        
-        perform(#selector(delayedTouch), with: touches, afterDelay: 0.3)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        
-        isHighighted = false
-        let animation = {
-            self.setNeedsLayout()
-            self.transform = .identity
-        }
-        UIView.animate(withDuration: 0.2, animations: animation) { _ in
-            if self.onLongPressed {
-                self.onLongPress?()
-            }
-        }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesCancelled(touches, with: event)
-        
-        isHighighted = false
-        let animation = {
-            self.setNeedsLayout()
-            self.transform = .identity
-        }
-        UIView.animate(withDuration: 0.2, animations: animation) { _ in
-            if self.onLongPressed {
-                self.onLongPress?()
-            }
-        }
-    }
-    
-    @objc func delayedTouch() {
-        if isHighighted {
-            self.transform = .identity
-            let animations = {
-                self.setNeedsLayout()
-                self.transform = .identity.scaledBy(x: 1.1, y: 1.1)
-                self.onLongPressed = true
-            }
-            UIView.animate(withDuration: 0.2, animations: animations)
-        }
-    }
-}
-
-class Button: DynamicView {
-    
-    let label = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubview(label)
-        label.textAlignment = .center
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        label.frame = bounds
-    }
 }

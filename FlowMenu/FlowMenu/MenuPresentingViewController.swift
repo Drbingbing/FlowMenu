@@ -43,7 +43,7 @@ extension MenuPresentingViewController {
         scrollObserver?.invalidate()
         scrollObserver = nil
         scrollObserver = scrollView?.observe(\.contentOffset) { [weak self] _, change in
-            self?.presentedViewController.dismiss(animated: true)
+            self?.presentedViewController.dismiss(animated: false)
         }
     }
 }

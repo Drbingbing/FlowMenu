@@ -41,7 +41,7 @@ extension UIViewController {
     
     func showMenu(sourceView: UIView?, viewController: UIViewController) {
         
-        dismiss(animated: true)
+        dismiss(animated: false)
         
         FlowMenuTransitionDelegate.shared.sourceView = sourceView
         viewController.modalPresentationStyle = .custom
